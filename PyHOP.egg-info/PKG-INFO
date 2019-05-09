@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: PyHOP
+Version: 2.0
+Summary: SHOP-like planner written in Python.
+Home-page: https://github.com/oubiwann/pyhop
+Author: Dana S. Nau
+Author-email: http://www.cs.umd.edu/~nau
+License: Apache License, Version 2.0
+Description: SHOP-like planner written in Python.
+Platform: UNKNOWN

@@ -196,13 +196,13 @@ def seek_plan(state,tasks,operators,methods,plan,depth,verbose=0):
     - verbose is whether to print debugging messages
     """
     if verbose>1:
-        print('--depth {} tasks {}'.format(depth,tasks))
+        print('depth {} tasks {}'.format(depth,tasks))
     if tasks == []:
         if verbose>2:
             print('depth {} returns plan {}'.format(depth,plan))
         return plan
     task = tasks[0]
-    print('task: ', task)
+    print("TASK:", task, 'op',task[0] in operators,'me',task[0] in methods)
     if task[0] in operators:
         return search_operators(
             state,tasks,operators,methods,plan,task,depth,verbose)
