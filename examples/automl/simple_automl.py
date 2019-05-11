@@ -13,12 +13,10 @@ def setPP(state, pp):
     return state
 
 def choosePP_empty(state, p):
-    print('choosePP_empty')
-    return [('setPP', 0)]
+    return [('setPP', 'empty')]
 
 def choosePP_PCA(state, p):
-    print('choosePP_PCA')
-    return [('setPP', 1)]
+    return [('setPP', 'pca')]
 
 hop.declare_methods('choosePP_task',choosePP_empty,choosePP_PCA)
 hop.declare_operators(setPP)
@@ -35,16 +33,16 @@ def setupClassifier_basic(state, p):
     return [('setupClassifier_basic_task', p)]
 
 def setupClassifier_basic_RandomForest(state, p):
-    return [('setClassifier', 1),('setParam','1',1)]
+    return [('setClassifier', 'random_forest'),('setParam','1',1)]
 
 def setupClassifier_basic_C45(state, p):
-    return [('setClassifier', 2),('setParam','1',2)]
+    return [('setClassifier', 'c45'),('setParam','1',2)]
 
 def setupClassifier_meta(state, p):
-    return [('setupClassifier_meta_task')]
+    return [('setupClassifier_meta_task', p)]
 
 def setupClassifier_meta_Test(state, p):
-    return [('setClassifier', 3),('setParam','1',0)]
+    return [('setClassifier', 'test'),('setParam','1',0)]
 
 hop.declare_methods('setupClassifier_task',setupClassifier_basic, setupClassifier_meta)
 hop.declare_methods('setupClassifier_basic_task',setupClassifier_basic_RandomForest, setupClassifier_basic_C45)
@@ -63,14 +61,23 @@ hop.declare_operators(setConfigPP)
 initialState = hop.State('initialState')
 initialState.Name = "Teste"
 initialState.ClassifierParam = dict()
+initialState.TasksProbDistributions = dict()
 
-print('')
-hop.print_operators(hop.get_operators()) 
-print('')
-hop.print_methods(hop.get_methods())
+#print('')
+#hop.print_operators(hop.get_operators()) 
+#print('')
+#hop.print_methods(hop.get_methods())
 
-hop.plan(initialState,
+methods = hop.get_methods() 
+for t in methods:
+    initialState.TasksProbDistributions[t] = [1 for x in methods[t]]
+
+#print("\n\n")
+
+#print(initialState.TasksProbDistributions)
+plan = hop.plan(initialState,
          [('initial_task', '')],
          hop.get_operators(),
-         hop.get_methods(),
-         verbose=3)
+         hop.get_methods())
+
+print(plan)

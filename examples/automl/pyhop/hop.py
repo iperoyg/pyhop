@@ -97,8 +97,7 @@ from __future__ import print_function
 import copy
 
 from pyhop.helpers import (
-    print_goal, print_methods, print_operators, print_state)
-
+    print_goal, print_methods, print_operators, print_state, norm_choice)
 
 ############################################################
 # States and goals
@@ -175,7 +174,10 @@ def search_methods(state,tasks,operators,methods,plan,task,depth,verbose):
     if verbose>2:
         print('depth {} method instance {}'.format(depth,task))
     relevant = methods[task[0]]
-    for method in relevant:
+    weighted_relevant = [norm_choice(relevant, state.TasksProbDistributions[task[0]])]
+    #print(">>> ", relevant, weighted_relevant)
+    #for method in relevant:
+    for method in weighted_relevant:
         subtasks = method(state,*task[1:])
         # Can't just say "if subtasks:", because that's wrong if
         # subtasks == []
@@ -202,7 +204,7 @@ def seek_plan(state,tasks,operators,methods,plan,depth,verbose=0):
             print('depth {} returns plan {}'.format(depth,plan))
         return plan
     task = tasks[0]
-    print("TASK:", task, 'op',task[0] in operators,'me',task[0] in methods)
+    #print("TASK:", task, 'op',task[0] in operators,'me',task[0] in methods)
     if task[0] in operators:
         return search_operators(
             state,tasks,operators,methods,plan,task,depth,verbose)
