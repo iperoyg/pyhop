@@ -1,6 +1,6 @@
 """
 A "toy example" for AutoML with HTN 
-Author: Arthur Iperoyg <iperoyg#gmail.com>, May 02, 2019
+Author: Arthur Iperoyg <iperoyg@gmail.com>, May 02, 2019
 """
 from pyhop import hop
 
@@ -79,5 +79,10 @@ plan = hop.plan(initialState,
          [('initial_task', '')],
          hop.get_operators(),
          hop.get_methods())
+
+def evaluate_plan(plan):
+    return 0
+
+error = evaluate_plan(plan)
 
 print(plan)
