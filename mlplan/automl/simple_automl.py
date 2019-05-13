@@ -36,7 +36,7 @@ def setupClassifier_basic_RandomForest(state, p):
     return [('setClassifier', 'random_forest'),('setParam','1',1)]
 
 def setupClassifier_basic_C45(state, p):
-    return [('setClassifier', 'c45'),('setParam','1',2)]
+    return [('setClassifier', 'c45'),('setParam','1',2),('setParam','fruta','banana')]
 
 def setupClassifier_meta(state, p):
     return [('setupClassifier_meta_task', p)]
