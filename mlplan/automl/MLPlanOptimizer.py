@@ -22,7 +22,9 @@ class MLPLanOptimizer(BaseOptimizer):
         for i in range(3):
             try:
                 plan = self.optimizer.plan()
+
                 print('plano', plan)
+                print([x[1] for x in plan])
                 candidate = self.parser_plan_to_pipeline(plan)
                 #print(candidate)
                 results = self.evaluate_pipeline(candidate)
@@ -42,7 +44,20 @@ class MLPLanOptimizer(BaseOptimizer):
         return sorted_dictionary
     
     def parser_plan_to_pipeline(self, plan):
-        plan_as_string = "LDA 5 0.001"
+        plan_as_string = ''
+        for step in plan:
+            step_type = step[0]
+            step_params = step[1:]
+            if step_type == 'setPP':
+                if step_params[0] == 'empty':
+                    continue
+                else:
+                    plan_as_string += step[1] + " " 
+            if step_type == 'setClassifier':
+                plan_as_string += step[1] + " " 
+            if step_type == 'setParam':
+                plan_as_string += str(step[2]) + " "
+        print(plan_as_string)
         return load_pipeline(plan_as_string)
 
 def parse_args():
